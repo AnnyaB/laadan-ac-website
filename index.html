@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="LAADAN-AC studies admissibility-aware offline treatment-policy learning by placing benchmark-defined action feasibility directly inside the actor interface and separating feasible action support from policy shaping.">
+  <meta property="og:title" content="LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning"/>
+  <meta property="og:description" content="Fixed-final-epoch evaluation of admissibility-aware offline treatment-policy learning on ICU-Sepsis, with paired post-hoc masking diagnostics, ablations, and exploratory eICU portability."/>
+  <meta property="og:url" content="https://annyab.github.io/laadan-ac-website/"/>
+  <meta name="twitter:title" content="LAADAN-AC">
+  <meta name="twitter:description" content="Beyond Survival in Admissible Offline Treatment-Policy Learning">
+  <meta name="twitter:card" content="summary">
+  <meta name="keywords" content="LAADAN-AC, offline reinforcement learning, sepsis treatment, admissible action masking, constrained policy learning, healthcare artificial intelligence">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>LAADAN-AC</title>
+  <link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning</h1>
+          <h3 class="title is-3 publication-title">💫ICATAS 2026🎉</h3>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://github.com/AnnyaB" target="_blank">Riya Basak</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://github.com/mhelal" target="_blank">Manal Helal</a><sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Hertfordshire</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+
+              <span class="link-block">
+                <a href="https://github.com/AnnyaB/laadan-ac" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser: exact trajectory_animation.gif from the frozen LAADAN-AC release. -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+      <img src="static/images/trajectory_animation.gif" alt="LAADAN-AC fixed-checkpoint trajectory illustration" style="display:block;width:80%;max-width:100%;height:auto;margin:0 auto;">
+      <h2 class="subtitle has-text-centered" style="font-size:1rem;margin-top:1rem;">
+        Illustrative trajectory from the predeclared seed 42. Quantitative results use all five training seeds.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p style="font-size: 1.1em;">
+            <b>What makes an offline treatment policy reliable?</b> High estimated return alone does not show whether a learned policy respects explicit action constraints or remains aligned with expert behaviour. We study this distinction with <b>Lagrangian Admissibility-Aware Deep Action-Nudging Actor-Critic (LAADAN-AC)</b>, which embeds benchmark-defined admissibility directly in an offline actor interface. Using predetermined epoch-1000 checkpoints across five random seeds on ICU-Sepsis, LAADAN-AC achieves <b>0.7927 ± 0.0012</b> expected return, <b>0.0000%</b> selected-action inadmissibility, and <b>0.9540 ± 0.0032</b> expert argmax agreement. Against post-hoc masked VOAC, paired evaluation yields <b>+0.0275 ± 0.0021</b> return and <b>+0.2568 ± 0.0022</b> expert-agreement differences, although both are admissible after masking. Ablations identify hard masking as the direct feasibility mechanism, while the remaining terms shape the return–alignment operating point. An exploratory eICU-CRD Demo study tests cross-source portability.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Main paper sections -->
+<section class="section">
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">LAADAN-AC Framework</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/architecture.png" alt="LAADAN-AC architecture">
+          <p class="caption" style="font-size: 1.2em;">
+            LAADAN-AC is an admissibility-constrained offline actor-critic framework for tabular treatment-policy benchmarks. The actor is restricted to benchmark-admissible actions during training and action extraction. Conservative critic regularisation, expert-policy KL, smoothness, and Lagrangian cost pressure then shape behaviour within or around that admissible interface.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Fixed-Schedule Evaluation</h2>
+        <p class="caption" style="font-size: 1.5em;">(1) ICU-Sepsis Main Comparison</p>
+        <div class="content has-text-justified">
+          <img src="static/images/fixed-schedule-comparison.png" alt="ICU-Sepsis fixed-schedule comparison">
+          <p class="caption" style="font-size: 1.2em;">
+            All values are means with 95% t-confidence intervals across five random training seeds using the predetermined epoch-1000 checkpoint. Across the five released policy evaluations, LAADAN-AC combines the highest return with zero benchmark-defined selected-action inadmissibility and expert agreement comparable to Behavior Cloning.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Training under the Admissibility Interface</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/training-vs-posthoc.png" alt="Paired LAADAN-AC and post-hoc masked VOAC comparison">
+          <p class="caption" style="font-size: 1.2em;">
+            Post-hoc masking and LAADAN-AC both produce zero selected-action inadmissibility after masking, but the paired fixed-schedule comparison separates action-time masking from training under the admissibility interface. Across the same five seeds, LAADAN-AC improves return by <b>0.0275 ± 0.0021</b>, expert argmax agreement by <b>0.2568 ± 0.0022</b>, and KL to the benchmark reference distribution by <b>−1.0871 ± 0.0218</b> relative to post-hoc masked VOAC.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Component Ablation</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/component-ablation.png" alt="LAADAN-AC component ablation">
+          <p class="caption" style="font-size: 1.2em;">
+            The masking-only actor-critic reaches <b>0.7974 ± 0.0026</b> return with zero inadmissibility but <b>0.7488 ± 0.0035</b> expert agreement. Removing the conservative critic increases return to <b>0.8067 ± 0.0009</b>, again with zero inadmissibility, while expert agreement falls to <b>0.7473 ± 0.0025</b>. The full objective is therefore not a return-maximising configuration: it selects a different return–admissibility–alignment operating point. Removing the action mask produces non-zero inadmissibility, identifying the mask as the direct feasibility mechanism in the reported benchmark.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Cross-source Portability</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/eicu-portability.png" alt="Cross-source portability comparison">
+          <p class="caption" style="font-size: 1.2em;">
+            The constructed eICU-CRD Demo MDP is used as an exploratory portability check. It contains 202 states, 25 actions, and 22-dimensional state features, compared with 716 states, 25 actions, and 47-dimensional features in ICU-Sepsis. On this MDP, LAADAN-AC obtains <b>0.7329 ± 0.0008</b> return, zero selected-action inadmissibility, and <b>0.9984 ± 0.0006</b> expert argmax agreement. This is an exploratory cross-source study, not external clinical validation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Admissibility Diagnostics</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/safety-diagnostics.png" alt="LAADAN-AC safety-failure diagnostics">
+          <p class="caption" style="font-size: 1.2em;">
+            The quantitative diagnostics use all five fixed epoch-1000 seeds. Qualitative state, Q-value, and trajectory panels use the predeclared illustrative seed 42. The benchmark admissibility signal is a property of the released MDP interface; it is not a clinical safety guarantee or treatment-optimality claim.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container is-max-desktop"><br><hr><br></div>
+
+  <!-- Dreamweaver's carousel is not placed inside Bulma columns: keep the
+       carousel directly inside hero-body > container so wide figures cannot
+       enlarge a flex column and push the native navigation controls off-screen. -->
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Additional Fixed-Schedule Diagnostics</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item">
+          <img src="static/images/posthoc-intervention.png" alt="Post-hoc intervention diagnostics">
+          <h2 class="subtitle has-text-centered"><br><br><b>Post-hoc Intervention</b></h2>
+        </div>
+        <div class="item">
+          <img src="static/images/distribution-admissibility.png" alt="Policy-distribution admissibility diagnostics">
+          <h2 class="subtitle has-text-centered"><br><br><b>Policy-distribution Admissibility</b></h2>
+        </div>
+        <div class="item">
+          <img src="static/images/optimization-dynamics.png" alt="Training-objective dynamics">
+          <h2 class="subtitle has-text-centered"><br><br><b>Training-objective Dynamics</b></h2>
+        </div>
+      </div>
+      <p class="caption" style="font-size: 1.2em;">
+        These diagnostic views explain the learned policy and optimisation behaviour without changing the pre-specified checkpoint rule used for the reported benchmark results.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Scope</h2>
+        <div class="content has-text-justified">
+          <p style="font-size: 1.1em;">
+            LAADAN-AC is a benchmark study of admissibility-aware offline treatment-policy learning. The reported selected-action admissibility is defined by the released benchmark MDP interface and should not be interpreted as prospective clinical safety, treatment optimality, clinician acceptance, or readiness for deployment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+<pre><code>@misc{basak2026laadanac,
+  author       = {Basak, Riya and Helal, Manal},
+  title        = {{LAADAN-AC}: Beyond Survival in Admissible Offline Treatment-Policy Learning},
+  year         = {2026},
+  month        = jun,
+  url          = {https://github.com/AnnyaB/laadan-ac}
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the&nbsp;<a href="https://nerfies.github.io" target="_blank">Nerfies</a>&nbsp;project page. This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
