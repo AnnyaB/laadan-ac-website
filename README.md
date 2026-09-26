@@ -1,7 +1,6 @@
 # LAADAN-AC Project Website
 
-Official project-page repository for **LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning**, by **Riya Basak** and **Manal Helal**.
-
+Official project-page repository for **LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning**.
 **Accepted to ICaTAS 2026.**
 
 - Project website: https://annyab.github.io/laadan-ac-website/
