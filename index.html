@@ -2,10 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://annyab.github.io/laadan-ac-website/">
   <meta name="citation_title" content="LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning">
   <meta name="citation_author" content="Riya Basak">
   <meta name="citation_author" content="Manal Helal">
   <meta name="citation_publication_date" content="2026">
+  <meta name="citation_online_date" content="2026/10/07">
   <meta name="citation_conference_title" content="11th International Conference on Advanced Technology and Applied Sciences (ICaTAS 2026)">
   <meta name="citation_pdf_url" content="https://annyab.github.io/laadan-ac-website/LAADAN-AC.pdf">
   <meta name="description" content="LAADAN-AC studies admissibility-aware offline treatment-policy learning by placing benchmark-defined action feasibility directly inside the actor interface and separating feasible action support from policy shaping.">
@@ -18,7 +21,7 @@
   <meta name="keywords" content="LAADAN-AC, offline reinforcement learning, sepsis treatment, admissible action masking, constrained policy learning, healthcare artificial intelligence">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>LAADAN-AC</title>
+  <title>LAADAN-AC: Beyond Survival in Admissible Offline Treatment-Policy Learning</title>
   <link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
@@ -99,7 +102,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p style="font-size: 1.1em;">
-            <b>What makes an offline treatment policy reliable?</b> High estimated return alone does not show whether a learned policy respects explicit action constraints or remains aligned with expert behaviour. We study this distinction with <b>Lagrangian Admissibility-Aware Deep Action-Nudging Actor-Critic (LAADAN-AC)</b>, which embeds benchmark-defined admissibility directly in an offline actor interface. Using predetermined epoch-1000 checkpoints across five random seeds on ICU-Sepsis, LAADAN-AC achieves <b>0.7927 ± 0.0012</b> expected return, <b>0.0000%</b> selected-action inadmissibility, and <b>0.9540 ± 0.0032</b> expert argmax agreement. Against post-hoc masked VOAC, paired evaluation yields <b>+0.0275 ± 0.0021</b> return and <b>+0.2568 ± 0.0022</b> expert-agreement differences, although both are admissible after masking. Ablations identify hard masking as the direct feasibility mechanism, while the remaining terms shape the return–alignment operating point. An exploratory eICU-CRD Demo study tests cross-source portability.
+            <b>What makes an offline treatment policy reliable?</b> High estimated return alone does not show whether a learned policy respects explicit action constraints or remains aligned with expert behaviour. We study this distinction with <b>Lagrangian Admissibility-Aware Deep Action-Nudging Actor-Critic (LAADAN-AC)</b>, which embeds benchmark-defined admissibility directly in an offline actor interface. Using predetermined epoch-1000 checkpoints across five random seeds on ICU-Sepsis, LAADAN-AC achieves <b>0.7927 ± 0.0012</b> expected return, <b>0.0000%</b> selected-action inadmissibility, and <b>0.9540 ± 0.0032</b> expert argmax agreement. Against post-hoc masked VOAC, paired evaluation yields <b>+0.0275 ± 0.0021</b> return and <b>+0.2568 ± 0.0022</b> expert-agreement differences, although both are admissible after masking. Ablations identify hard masking as the direct feasibility mechanism, while the remaining terms shape the return–alignment operating point. An exploratory eICU-CRD Demo study further tests cross-source portability. Code and results are available at: <a href="https://github.com/AnnyaB/laadan-ac" target="_blank">https://github.com/AnnyaB/laadan-ac</a>
           </p>
         </div>
       </div>
@@ -258,8 +261,8 @@
   author       = {Basak, Riya and Helal, Manal},
   title        = {{LAADAN-AC}: Beyond Survival in Admissible Offline Treatment-Policy Learning},
   year         = {2026},
-  month        = jun,
-  url          = {https://github.com/AnnyaB/laadan-ac}
+  month        = oct,
+  url          = {https://annyab.github.io/laadan-ac-website/}
 }</code></pre>
   </div>
 </section>
